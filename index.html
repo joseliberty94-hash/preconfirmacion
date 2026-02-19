@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registro 25 años</title>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<canvas id="particles"></canvas>
+
+<section id="section1">
+        
+<h1>LIBERTY 25 AÑOS</h1>
+<div class="subtitle">Celebrando nuestra trayectoria.</div>
+
+<div class="countdown">
+  <div class="time-box"><span id="days">00</span><p>Días</p></div>
+  <div class="time-box"><span id="hours">00</span><p>Horas</p></div>
+  <div class="time-box"><span id="minutes">00</span><p>Min</p></div>
+  <div class="time-box"><span id="seconds">00</span><p>Seg</p></div>
+</div>
+
+<button class="btn" onclick="openModal()">REGISTRO</button>
+<!-- SPONSORS MARQUEE -->
+<div class="sponsors-wrapper">
+  <div class="sponsors-track">
+    <img src="img/riu.png" alt="Riu">
+    <img src="img/clubmed.png" alt="Club Med">
+    <img src="img/iberostar.png" alt="Iberostar">
+    <img src="img/palladium.png" alt="Palladium">
+    <img src="img/sandos.png" alt="Sandos">
+    <img src="img/viva.png" alt="Viva">
+    <img src="img/msc.png" alt="MSC">
+    <img src="img/ncl.png" alt="Norwegian">
+    <img src="img/royal.png" alt="Royal Caribbean">
+    
+
+    <!-- duplicados para loop infinito -->
+    <img src="img/riu.png" alt="Riu">
+    <img src="img/clubmed.png" alt="Club Med">
+    <img src="img/iberostar.png" alt="Iberostar">
+    <img src="img/palladium.png" alt="Palladium">
+    <img src="img/sandos.png" alt="Sandos">
+    <img src="img/viva.png" alt="Viva">
+    <img src="img/msc.png" alt="MSC">
+    <img src="img/ncl.png" alt="Norwegian">
+    <img src="img/royal.png" alt="Royal Caribbean">
+  </div>
+</div>
+
+</section>
+
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">✕</span>
+
+<a title="Venta de entradas en línea"
+ href="https://widget.weezevent.com/ticket/E1732207/?code=51518&locale=es-ES&width_auto=1&color_primary=0032FA"
+ class="weezevent-widget-integration"
+ data-src="https://widget.weezevent.com/ticket/E1732207/?code=51518&locale=es-ES&width_auto=1&color_primary=0032FA"
+ data-id="1732207"
+ data-resize="1"
+ data-width_auto="1"
+ data-noscroll="0"
+ data-use-container="yes"
+ data-type="neo"
+ target="_blank">Billetterie Weezevent</a>
+
+<script src="https://widget.weezevent.com/weez.js"></script>
+
+  </div>
+</div>
+
+<!-- PARTICULAS -->
+<script>
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+
+let w = canvas.width = window.innerWidth;
+let h = canvas.height = window.innerHeight;
+
+let particles = [];
+const num = 120;
+
+window.addEventListener("resize", () => {
+  w = canvas.width = window.innerWidth;
+  h = canvas.height = window.innerHeight;
+});
+
+class Particle {
+  constructor() {
+    this.x = Math.random() * w;
+    this.y = Math.random() * h;
+    this.size = Math.random() * 2 + 1;
+    this.speedX = (Math.random() - 0.5) * 0.6;
+    this.speedY = (Math.random() - 0.5) * 0.6;
+    this.opacity = Math.random();
+  }
+
+  update() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+
+    if (this.x < 0 || this.x > w) this.speedX *= -1;
+    if (this.y < 0 || this.y > h) this.speedY *= -1;
+  }
+
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(0,200,255,${this.opacity})`;
+    ctx.fill();
+  }
+}
+
+function init() {
+  particles = [];
+  for (let i = 0; i < num; i++) {
+    particles.push(new Particle());
+  }
+}
+
+function animate() {
+  ctx.clearRect(0, 0, w, h);
+  particles.forEach(p => {
+    p.update();
+    p.draw();
+  });
+  requestAnimationFrame(animate);
+}
+
+init();
+animate();
+</script>
+
+<!-- COUNTDOWN -->
+<script>
+const eventDate = new Date("2026-05-08T20:00:00-03:00").getTime();
+
+const daysEl = document.getElementById("days");
+const hoursEl = document.getElementById("hours");
+const minutesEl = document.getElementById("minutes");
+const secondsEl = document.getElementById("seconds");
+
+function updateCountdown(){
+  const now = new Date().getTime();
+  const distance = eventDate - now;
+
+  if(distance < 0){
+    daysEl.innerHTML = "00";
+    hoursEl.innerHTML = "00";
+    minutesEl.innerHTML = "00";
+    secondsEl.innerHTML = "00";
+    return;
+  }
+
+  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  daysEl.innerHTML = String(days).padStart(2,"0");
+  hoursEl.innerHTML = String(hours).padStart(2,"0");
+  minutesEl.innerHTML = String(minutes).padStart(2,"0");
+  secondsEl.innerHTML = String(seconds).padStart(2,"0");
+}
+
+setInterval(updateCountdown,1000);
+updateCountdown();
+</script>
+
+<script>
+function openModal(){
+  document.getElementById("modal").style.display="flex";
+}
+
+function closeModal(){
+  document.getElementById("modal").style.display="none";
+}
+</script>
+
+</body>
+</html>
